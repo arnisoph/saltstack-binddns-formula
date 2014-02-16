@@ -1,0 +1,34 @@
+{%- from "binddns/defaults.yaml" import rawmap with context -%}
+{%- set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('binddns:lookup')) -%}
+
+{%- if datamap['config']['options']['file_prepend'] is defined -%}
+{{ datamap['config']['options']['file_prepend'] }}
+
+{% endif -%}
+
+directory "{{ datamap['vardir'] }}";
+auth-nxdomain {{ datamap['auth_nxdomain']|default('no') }};
+dnssec-validation {{ datamap['dnssec_validation']|default('auto') }};
+
+{% if salt['pillar.get']('binddns:forwarders', False) -%}
+forwarders {
+  {%- for f in salt['pillar.get']('binddns:forwarders') %}
+  {{ f }};
+  {%- endfor %}
+};
+{%- endif %}
+
+{% set ip6_listen = ['any'] -%}
+{%- if salt['pillar.get']('binddns:ip6_listen', False) -%}
+  {%- set ip6_listen = salt['pillar.get']('binddns:ip6_listen') -%}
+{%- endif -%}
+listen-on-v6 {
+{%- for i in ip6_listen %}
+  {{ i }};
+{%- endfor %}
+};
+
+{%- if datamap['config']['options']['file_append'] is defined %}
+
+{{ datamap['config']['options']['file_append'] }}
+{%- endif -%}

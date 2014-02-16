@@ -1,0 +1,36 @@
+{% load_yaml as rawmap %}
+Debian:
+  pkgs:
+    - bind9
+  service:
+    name: bind9
+  user:
+    name: bind
+  group:
+    name: bind
+  vardir: /var/cache/bind
+  zonedir: /var/cache/bind/zones
+  config:
+    manage:
+      - named.conf
+      - rndc.key
+      - options
+    named.conf:
+      path: /etc/bind/named.conf
+    rndc.key:
+      path: /etc/bind/rndc.key
+    localzones:
+      path: /etc/bind/zones.rfc1918
+    options:
+      path: /etc/bind/named.conf.options
+Redhat:
+{# https://github.com/theforeman/puppet-dns/blob/master/manifests/params.pp #}
+  pkgs:
+    - named
+  service:
+    name: named
+  user:
+    name: named
+  group:
+    name: named
+{% endload %}
