@@ -14,6 +14,7 @@ TODO
 
 * ensure user+group exists?
 * provide creation of user defined zones ('binddns:zones')
+* support IPv6
 
 Instructions
 ============
