@@ -34,8 +34,8 @@ Available states
 -----------
 Installs named and do basic configuration
 
-``zones``
-------------
+``binddns.zones``
+-----------------
 Manage zones
 
 Additional resources
