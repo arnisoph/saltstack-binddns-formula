@@ -1,0 +1,24 @@
+$TTL {{ ttl }}
+@ IN SOA {{ soa }}. {{ contact }} (
+  {{ serial }}  ; serial
+  {{ refresh }} ; refresh
+  {{ retry }}  ; retry
+  {{ expire }}  ; expire
+  {{ minimum }}  ; minimum
+)
+
+@ IN NS {{ soa }}.
+
+{% for r in records -%}
+  {%- if r.comment is not defined -%}
+    {%- set rcomment = ' ' -%}
+  {%- else -%}
+    {%- set rcomment = ' ; ' ~ r.comment -%}
+  {%- endif -%}
+  {%- if r.ttl is not defined -%}
+    {%- set rttl = ' ' -%}
+  {%- else -%}
+    {%- set rttl = ' ' ~ r.ttl ~ ' ' -%}
+  {%- endif -%}
+{{ r.owner }} {{- rttl -}} IN {{ r.class|upper }} {{ r.data }} {{- rcomment }}
+{% endfor %}

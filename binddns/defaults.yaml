@@ -15,6 +15,7 @@ Debian:
       - named.conf
       - rndc.key
       - options
+      - zoneconfigs
     named.conf:
       path: /etc/bind/named.conf
     rndc.key:
@@ -23,6 +24,9 @@ Debian:
       path: /etc/bind/zones.rfc1918
     options:
       path: /etc/bind/named.conf.options
+    zoneconfigs:
+      path: /etc/bind/named.conf.zones
+    zones: {}
 Redhat:
 {# https://github.com/theforeman/puppet-dns/blob/master/manifests/params.pp #}
   pkgs:

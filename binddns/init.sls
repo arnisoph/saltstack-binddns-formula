@@ -66,7 +66,7 @@ binddns:
 {{ datamap['config']['options']['path'] }}:
   file:
     - managed
-    - source: {{ datamap['config']['options']['template_path']|default('salt://binddns/files/options') }}
+    - source: {{ datamap['config']['options']['template_path']|default('salt://binddns/files/named.conf.options') }}
     - template: {{ datamap['config']['options']['template_renderer']|default('jinja') }}
     - mode: {{ datamap['config']['options']['mode']|default('640') }}
     - user: {{ datamap['config']['options']['user']|default(datamap['user']['name']) }}

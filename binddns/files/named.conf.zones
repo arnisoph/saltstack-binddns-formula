@@ -1,0 +1,24 @@
+{%- from "binddns/defaults.yaml" import rawmap with context -%}
+{%- set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('binddns:lookup')) -%}
+
+{%- if datamap.config.zoneconfigs.file_prepend is defined -%}
+{{ datamap.config.zoneconfigs.file_prepend }}
+
+{% endif -%}
+
+{%- for z in salt['pillar.get']('binddns:zones')|default([]) %}
+
+zone "{{ z.name }}" {
+  type {{ z.type|default('master') }};
+  file "{{ datamap.zonedir }}/db.{{ z.name }}";
+
+  {%- for a in z.additional|default([]) %}
+  {{ a }};
+  {%- endfor %}
+};
+{%- endfor -%}
+
+{%- if datamap.config.zoneconfigs.file_append is defined %}
+
+{{ datamap.config.zoneconfigs.file_append }}
+{%- endif -%}

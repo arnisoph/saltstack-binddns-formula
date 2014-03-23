@@ -13,7 +13,6 @@ TODO
 ====
 
 * ensure user+group exists?
-* provide creation of user defined zones ('binddns:zones')
 * support IPv6
 
 Instructions
@@ -32,14 +31,17 @@ Available states
     :local:
 
 ``binddns``
-------------
+-----------
+Installs named and do basic configuration
 
-Install named and do basic configuration
+``zones``
+------------
+Manage zones
 
 Additional resources
 ====================
 
-Thanks to:
+Thanks to the Foreman community for inspiration:
 
 * https://github.com/theforeman/puppet-dns/
 
