@@ -13,12 +13,12 @@ binddns:
     - name: {{ datamap['service']['name'] }}
     - enable: {{ datamap['service']['enable']|default(True) }}
     - watch:
-{% for c in datamap['config']['manage'] %}
+{% for c in datamap['config']['manage']|default([]) %}
       - file: {{ datamap['config'][c]['path'] }}
 {% endfor %}
     - require:
       - pkg: binddns
-{% for c in datamap['config']['manage'] %}
+{% for c in datamap['config']['manage']|default([]) %}
       - file: {{ datamap['config'][c]['path'] }}
 {% endfor %}
 

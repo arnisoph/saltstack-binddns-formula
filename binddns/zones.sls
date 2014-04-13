@@ -15,7 +15,7 @@ set z_def = {
 }
 %}
 
-{% if 'zoneconfigs' in datamap.config.manage %}
+{% if 'zoneconfigs' in datamap.config.manage|default([]) %}
 {{ datamap.config.zoneconfigs.path }}:
   file:
     - managed
