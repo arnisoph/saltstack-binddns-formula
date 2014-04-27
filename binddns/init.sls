@@ -18,9 +18,6 @@ binddns:
 {% endfor %}
     - require:
       - pkg: binddns
-{% for c in datamap['config']['manage']|default([]) %}
-      - file: {{ datamap['config'][c]['path'] }}
-{% endfor %}
 
 {{ datamap['zonedir'] }}:
   file:
