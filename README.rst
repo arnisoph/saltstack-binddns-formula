@@ -32,11 +32,7 @@ Available states
 
 ``binddns``
 -----------
-Installs named and do basic configuration
-
-``binddns.zones``
------------------
-Manage zones
+Installs named and do basic configuration. It also can manage DNS zones.
 
 Additional resources
 ====================
@@ -65,11 +61,12 @@ Salt Compatibility
 
 Tested with:
 
-* 2014.1.1
+* 2014.1.3
+* 2014.1.4
 
 OS Compatibility
 ================
 
 Tested with:
 
-* GNU/ Linux Debian Wheezy
+* GNU/ Linux Debian Wheezy 7.5
