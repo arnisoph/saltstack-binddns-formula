@@ -18,11 +18,12 @@ binddns:
 {% endfor %}
     - require:
       - pkg: binddns
+      - file: {{ datamap['zonedir'] }}
 
 {{ datamap['zonedir'] }}:
   file:
     - directory
-    - mode: '0750'
+    - mode: 750
     - user: {{ datamap['user']['name'] }}
     - group: {{ datamap['group']['name'] }}
     - require:

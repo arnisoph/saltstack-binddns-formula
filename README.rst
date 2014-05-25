@@ -61,7 +61,6 @@ Salt Compatibility
 
 Tested with:
 
-* 2014.1.3
 * 2014.1.4
 
 OS Compatibility
@@ -69,4 +68,4 @@ OS Compatibility
 
 Tested with:
 
-* GNU/ Linux Debian Wheezy 7.5
+* GNU/ Linux Debian Wheezy
