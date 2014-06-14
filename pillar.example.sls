@@ -19,6 +19,11 @@ binddns:
 binddns:
   lookup:
     config:
+      options:
+        ip4_listen:
+          - 127.0.0.1
+        ip6_listen:
+          - ::1
       named.conf:
         controls:
           - 'inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { "rndc-key"; };'

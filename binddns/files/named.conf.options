@@ -18,12 +18,14 @@ forwarders {
 };
 {%- endif %}
 
-{% set ip6_listen = ['any'] -%}
-{%- if salt['pillar.get']('binddns:ip6_listen', False) -%}
-  {%- set ip6_listen = salt['pillar.get']('binddns:ip6_listen') -%}
-{%- endif -%}
+listen-on {
+{%- for i in datamap.config.options.ip4_listen|default(['any']) %}
+  {{ i }};
+{%- endfor %}
+};
+
 listen-on-v6 {
-{%- for i in ip6_listen %}
+{%- for i in datamap.config.options.ip6_listen|default(['any']) %}
   {{ i }};
 {%- endfor %}
 };
