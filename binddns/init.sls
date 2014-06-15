@@ -1,76 +1,83 @@
+#!jinja|yaml
+
 {% from "binddns/defaults.yaml" import rawmap with context %}
 {% set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('binddns:lookup')) %}
 
 binddns:
   pkg:
     - installed
-    - pkgs:
-{% for p in datamap['pkgs'] %}
-      - {{ p }}
-{% endfor %}
+    - pkgs: {{ datamap.pkgs }}
   service:
     - running
-    - name: {{ datamap['service']['name'] }}
-    - enable: {{ datamap['service']['enable']|default(True) }}
+    - name: {{ datamap.service.name }}
+    - enable: {{ datamap.service.enable|default(True) }}
     - watch:
-{% for c in datamap['config']['manage']|default([]) %}
-      - file: {{ datamap['config'][c]['path'] }}
+{% for c in datamap.config.manage|default([]) %}
+      - file: {{ c }}
 {% endfor %}
     - require:
       - pkg: binddns
-      - file: {{ datamap['zonedir'] }}
+      - file: zonedir
 
-{{ datamap['zonedir'] }}:
+zonedir:
   file:
     - directory
+    - name: {{ datamap.zonedir }}
     - mode: 750
-    - user: {{ datamap['user']['name'] }}
-    - group: {{ datamap['group']['name'] }}
-    - require:
-      - pkg: binddns
+    - user: {{ datamap.user.name }}
+    - group: {{ datamap.group.name }}
 
-{% if 'named.conf' in datamap['config']['manage'] %}
-{{ datamap['config']['named.conf']['path'] }}:
+{% if 'defaults_file' in datamap.config.manage %}
+defaults_file:
   file:
     - managed
-    #- name: {{ datamap['config']['named.conf']['path'] }}
-    - source: {{ datamap['config']['named.conf']['template_path']|default('salt://binddns/files/named.conf') }}
-    - template: {{ datamap['config']['named.conf']['template_renderer']|default('jinja') }}
-    - mode: {{ datamap['config']['named.conf']['mode']|default('640') }}
-    - user: {{ datamap['config']['named.conf']['user']|default(datamap['user']['name']) }}
-    - group: {{ datamap['config']['named.conf']['group']|default(datamap['group']['name']) }}
-    - require:
-      - pkg: binddns
+    - name: {{ datamap.config.defaults_file.path }}
+    - makedirs: True
+    - source: {{ datamap.config.defaults_file.template_path|default('salt://binddns/files/defaults_file.' ~ salt['grains.get']('os_family')) }}
+    - template: {{ datamap.config.defaults_file.template_renderer|default('jinja') }}
+    - mode: {{ datamap.config.defaults_file.mode|default('644') }}
+    - user: {{ datamap.config.defaults_file.user|default('root') }}
+    - group: {{ datamap.config.defaults_file.group|default('root') }}
 {% endif %}
 
-{% if 'rndc.key' in datamap['config']['manage'] %}
-{{ datamap['config']['rndc.key']['path'] }}:
+{% if 'named_conf' in datamap.config.manage %}
+named_conf:
+  file:
+    - managed
+    - name: {{ datamap.config.named_conf.path }}
+    - source: {{ datamap.config.named_conf.template_path|default('salt://binddns/files/named.conf') }}
+    - template: {{ datamap.config.named_conf.template_renderer|default('jinja') }}
+    - mode: {{ datamap.config.named_conf.mode|default('640') }}
+    - user: {{ datamap.config.named_conf.user|default(datamap.user.name) }}
+    - group: {{ datamap.config.named_conf.group|default(datamap.group.name) }}
+{% endif %}
+
+{% if 'rndc_key' in datamap.config.manage %}
+rndc_key:
   cmd:
     - run
-    - name: {{ datamap['config']['rndc.key']['gen_cmd']|default('/usr/sbin/rndc-confgen -r /dev/urandom -a -c ' ~ datamap['config']['rndc.key']['path'] ) }}
-    - unless: test -f {{ datamap['config']['rndc.key']['path'] }}
-    - require:
-      - pkg: binddns
+    - name: {{ datamap.config.rndc_key.gen_cmd|default('/usr/sbin/rndc-confgen -r /dev/urandom -a -c ' ~ datamap.config.rndc_key.path ) }}
+    - unless: test -f {{ datamap.config.rndc_key.path }}
   file:
     - managed
-    - mode: {{ datamap['config']['rndc.key']['mode']|default('640') }}
-    - user: {{ datamap['config']['rndc.key']['user']|default('root') }}
-    - group: {{ datamap['config']['rndc.key']['group']|default(datamap['group']['name']) }}
+    - name: {{ datamap.config.rndc_key.path }}
+    - mode: {{ datamap.config.rndc_key.mode|default('640') }}
+    - user: {{ datamap.config.rndc_key.user|default('root') }}
+    - group: {{ datamap.config.rndc_key.group|default(datamap.group.name) }}
     - require:
-      - cmd: {{ datamap['config']['rndc.key']['path'] }}
+      - cmd: rndc_key
 {% endif %}
 
-{% if 'options' in datamap['config']['manage'] %}
-{{ datamap['config']['options']['path'] }}:
+{% if 'options' in datamap.config.manage %}
+options:
   file:
     - managed
-    - source: {{ datamap['config']['options']['template_path']|default('salt://binddns/files/named.conf.options') }}
-    - template: {{ datamap['config']['options']['template_renderer']|default('jinja') }}
-    - mode: {{ datamap['config']['options']['mode']|default('640') }}
-    - user: {{ datamap['config']['options']['user']|default(datamap['user']['name']) }}
-    - group: {{ datamap['config']['options']['group']|default(datamap['group']['name']) }}
-    - require:
-      - pkg: binddns
+    - name: {{ datamap.config.options.path }}
+    - source: {{ datamap.config.options.template_path|default('salt://binddns/files/named.conf.options') }}
+    - template: {{ datamap.config.options.template_renderer|default('jinja') }}
+    - mode: {{ datamap.config.options.mode|default('640') }}
+    - user: {{ datamap.config.options.user|default(datamap.user.name) }}
+    - group: {{ datamap.config.options.group|default(datamap.group.name) }}
 {% endif %}
 
 
@@ -88,9 +95,10 @@ set z_def = {
 %}
 
 {% if 'zoneconfigs' in datamap.config.manage|default([]) %}
-{{ datamap.config.zoneconfigs.path }}:
+zoneconfigs:
   file:
     - managed
+    - name: {{ datamap.config.zoneconfigs.path }}
     - source: {{ datamap.config.zoneconfigs.template_path|default('salt://binddns/files/named.conf.zones') }}
     - template: {{ datamap.config.zoneconfigs.template_renderer|default('jinja') }}
     - mode: {{ datamap.config.zoneconfigs.mode|default('644') }}
@@ -100,16 +108,15 @@ set z_def = {
 
 {% for z in salt['pillar.get']('binddns:zones', []) %}
   {% if not (z.create_db_only and salt['file.file_exists'](datamap.zonedir ~ '/db.' ~ z.name)) %}
-{{ datamap.zonedir }}/db.{{ z.name }}:
+zone_{{ z.name }}:
   file:
     - managed
+    - name: {{ datamap.zonedir }}/db.{{ z.name }}
     - source: {{ datamap.config.zones.template_path|default('salt://binddns/files/zonefile') }}
     - template: {{ datamap.config.zones.template_renderer|default('jinja') }}
     - mode: {{ datamap.config.zones.mode|default('644') }}
     - user: {{ datamap.config.zones.user|default('root') }}
     - group: {{ datamap.config.zones.group|default('root') }}
-    - require:
-      - pkg: binddns
     - watch_in:
       - service: binddns
     - context:

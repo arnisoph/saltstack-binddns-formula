@@ -1,0 +1,8 @@
+{%- from "binddns/defaults.yaml" import rawmap with context -%}
+{%- set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('binddns:lookup')) -%}
+
+# run resolvconf?
+RESOLVCONF=no
+
+# startup options for the server
+OPTIONS="{% for o in datamap.config.defaults_file.options|default(['-u bind']) %}{{ o }} {% endfor %}"

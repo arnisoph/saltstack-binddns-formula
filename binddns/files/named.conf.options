@@ -1,14 +1,14 @@
 {%- from "binddns/defaults.yaml" import rawmap with context -%}
 {%- set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('binddns:lookup')) -%}
 
-{%- if datamap['config']['options']['file_prepend'] is defined -%}
-{{ datamap['config']['options']['file_prepend'] }}
+{%- if datamap.config.options.file_prepend is defined -%}
+{{ datamap.config.options.file_prepend }}
 
 {% endif -%}
 
-directory "{{ datamap['vardir'] }}";
-auth-nxdomain {{ datamap['auth_nxdomain']|default('no') }};
-dnssec-validation {{ datamap['dnssec_validation']|default('auto') }};
+directory "{{ datamap.vardir }}";
+auth-nxdomain {{ datamap.auth_nxdomain|default('no') }};
+dnssec-validation {{ datamap.dnssec_validation|default('auto') }};
 
 {% if salt['pillar.get']('binddns:forwarders', False) -%}
 forwarders {
@@ -30,7 +30,7 @@ listen-on-v6 {
 {%- endfor %}
 };
 
-{%- if datamap['config']['options']['file_append'] is defined %}
+{%- if datamap.config.options.file_append is defined %}
 
-{{ datamap['config']['options']['file_append'] }}
+{{ datamap.config.options.file_append }}
 {%- endif -%}

@@ -2,6 +2,10 @@
 binddns:
   lookup:
     config:
+      defaults_file:
+        options:
+          - '-4'
+          - '-u bind'
       named.conf:
         file_prepend: "// my prepend\n// the end"
         controls:

@@ -12,13 +12,16 @@ Debian:
   zonedir: /var/cache/bind/zones
   config:
     manage:
-      - named.conf
-      - rndc.key
+      - defaults_file
+      - named_conf
+      - rndc_key
       - options
       - zoneconfigs
-    named.conf:
+    defaults_file:
+      path: /etc/default/bind9
+    named_conf:
       path: /etc/bind/named.conf
-    rndc.key:
+    rndc_key:
       path: /etc/bind/rndc.key
     localzones:
       path: /etc/bind/zones.rfc1918
