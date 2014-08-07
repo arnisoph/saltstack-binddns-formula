@@ -30,7 +30,7 @@ Debian:
     zoneconfigs:
       path: /etc/bind/named.conf.zones
     zones: {}
-Redhat:
+RedHat:
 {# https://github.com/theforeman/puppet-dns/blob/master/manifests/params.pp #}
   pkgs:
     - named
@@ -40,4 +40,23 @@ Redhat:
     name: named
   group:
     name: named
+  vardir: /var/named
+  zonedir: /var/named/data
+  config:
+    manage:
+      - named_conf
+      - rndc_key
+      - options
+      - zoneconfigs
+    named_conf:
+      path: /etc/named.conf
+    rndc_key:
+      path: /etc/rndc.key
+    localzones:
+      path: /etc/named.rfc1912.zones
+    options:
+      path: /etc/named.conf.options
+    zoneconfigs:
+      path: /etc/bind/named.conf.local
+    zones: {}
 {% endload %}
