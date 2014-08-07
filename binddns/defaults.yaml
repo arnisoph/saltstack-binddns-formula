@@ -58,6 +58,6 @@ RedHat:
     options:
       path: /etc/named.conf.options
     zoneconfigs:
-      path: /etc/bind/named.conf.local
+      path: /etc/named.conf.local
     zones: {}
 {% endload %}
