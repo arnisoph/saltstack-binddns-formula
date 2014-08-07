@@ -33,11 +33,12 @@ Debian:
 RedHat:
 {# https://github.com/theforeman/puppet-dns/blob/master/manifests/params.pp #}
   pkgs:
-    - named
+    - bind
+    - bind-utils
   service:
     name: named
   user:
-    name: named
+    name: root
   group:
     name: named
   vardir: /var/named
