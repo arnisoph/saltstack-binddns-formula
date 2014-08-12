@@ -28,6 +28,9 @@ binddns:
           - 127.0.0.1
         ip6_listen:
           - ::1
+        additional:
+	  - 'allow-query  { any; }'
+	  - 'recursion yes'
       named.conf:
         controls:
           - 'inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { "rndc-key"; };'
@@ -50,6 +53,10 @@ binddns:
           class: a
           data: 172.16.34.42
           comment: anyhost
+      zone_recs_from_mine: True
+      includes:
+        - path: in.beta.be1-net.local
+	  domain: "beta.be1-net.local"
     - create_db_only: True
       name: 34.16.172.in-addr.arpa
       soa: foreman.prod.be1-net.local

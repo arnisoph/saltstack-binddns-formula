@@ -132,3 +132,31 @@ zone_{{ z.name }}:
         records: {{ z.records|default([]) }}
   {% endif %}
 {% endfor %}
+
+{% for z in salt['pillar.get']('binddns:zones', []) %}
+  {% if z.zone_recs_from_mine %}
+incl_{{ z.name }}:
+  file:
+    - managed
+    - name: {{ datamap.zonedir }}/in.{{ z.name }}
+    - source: {{ datamap.config.zones.template_path|default('salt://binddns/files/zone_recs_from_mine') }}
+    - template: {{ datamap.config.zones.template_renderer|default('jinja') }}
+    - mode: {{ datamap.config.zones.mode|default('644') }}
+    - user: {{ datamap.config.zones.user|default('root') }}
+    - group: {{ datamap.config.zones.group|default('root') }}
+    - watch_in:
+      - service: binddns
+    - context:
+        name: {{ z.name }}
+        soa: {{ z.soa }}
+        ttl: {{ z.ttl|default(z_def.ttl) }}
+        serial: {{ z.serial|default(z_def.serial) }}
+        refresh: {{ z.refresh|default(z_def.refresh) }}
+        retry: {{ z.retry|default(z_def.retry) }}
+        expire: {{ z.expire|default(z_def.expire) }}
+        minimum: {{ z.minimum|default(z_def.minimum) }}
+        contact: {{ z.contact|default('root.' ~ z.name ~ '.') }}
+        records: {{ z.records|default([]) }}
+	includes: [ { 'path': "{{ datamap.zonedir }}/in.{{ z.name }}" ]
+  {% endif %}
+{% endfor %}
