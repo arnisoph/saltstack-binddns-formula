@@ -134,7 +134,7 @@ zone_{{ z.name }}:
 {% endfor %}
 
 {% for z in salt['pillar.get']('binddns:zones', []) %}
-  {% if z.zone_recs_from_mine %}
+  {% if z.zone_recs_from_mine is defined and z.zone_recs_from_mine %}
 incl_{{ z.name }}:
   file:
     - managed
