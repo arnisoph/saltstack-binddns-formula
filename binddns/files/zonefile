@@ -9,6 +9,7 @@ $TTL {{ ttl }}
 
 @ IN NS {{ soa }}.
 
+{% if records is defined %}
 {% for r in records -%}
   {%- if r.comment is not defined -%}
     {%- set rcomment = ' ' -%}
@@ -22,7 +23,9 @@ $TTL {{ ttl }}
   {%- endif -%}
 {{ r.owner }} {{- rttl -}} IN {{ r.class|upper }} {{ r.data }} {{- rcomment }}
 {% endfor %}
+{% endif %}
 
+{% if includes is defined %}
 {% for i in includes -%}
   {%- if i.domain is not defined -%}
     {%- set idomain = '' -%}
@@ -31,4 +34,5 @@ $TTL {{ ttl }}
   {%- endif -%}
 $INCLUDE {{ i.path }} {{ idomain }};
 {% endfor %}
+{% endif %}
 
