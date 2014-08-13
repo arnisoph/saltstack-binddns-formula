@@ -130,6 +130,9 @@ zone_{{ z.name }}:
         minimum: {{ z.minimum|default(z_def.minimum) }}
         contact: {{ z.contact|default('root.' ~ z.name ~ '.') }}
         records: {{ z.records|default([]) }}
+    {% if z.zone_recs_from_mine is defined and z.zone_recs_from_mine %}
+        includes: [ { 'path': "{{ datamap.zonedir }}/in.{{ z.name }}" } ]
+    {% endif %}
   {% endif %}
 {% endfor %}
 
@@ -157,6 +160,5 @@ incl_{{ z.name }}:
         minimum: {{ z.minimum|default(z_def.minimum) }}
         contact: {{ z.contact|default('root.' ~ z.name ~ '.') }}
         records: {{ z.records|default([]) }}
-        includes: [ { 'path': "{{ datamap.zonedir }}/in.{{ z.name }}" } ]
   {% endif %}
 {% endfor %}
