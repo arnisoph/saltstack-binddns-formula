@@ -10,7 +10,7 @@
 
 {%- if addrs is defined %}
 
-{% for node, addrlist in addrs.items() %}
+{%- for node, addrlist in addrs.items() %}
 {{ addrlist|first() }} {{ ittl }} IN A {{ node }}
-{% endfor %}
-{%- endif -%}
+{% endfor -%}
+{% endif %}
