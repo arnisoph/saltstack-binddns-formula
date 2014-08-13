@@ -10,30 +10,30 @@ $TTL {{ ttl }}
 
    IN NS {{ soa }}.{{ name }}.
 
-{%- if records is defined -%}
+{% if records is defined -%}
 {% for r in records %}
-  {%- if r.comment is not defined -%}
-    {%- set rcomment = ' ' -%}
-  {%- else -%}
+  {% if r.comment is not defined -%}
+    {% set rcomment = ' ' -%}
+  {% else -%}
     {%- set rcomment = ' ; ' ~ r.comment -%}
-  {%- endif -%}
-  {%- if r.ttl is not defined -%}
+  {% endif -%}
+  {% if r.ttl is not defined -%}
     {%- set rttl = ' ' -%}
-  {%- else -%}
+  {% else -%}
     {%- set rttl = ' ' ~ r.ttl ~ ' ' -%}
-  {%- endif -%}
+  {% endif -%}
 {{ r.owner }} {{- rttl -}} IN {{ r.class|upper }} {{ r.data }} {{- rcomment }}
 {% endfor %}
-{%- endif -%}
+{% endif -%}
 
-{%- if includes is defined -%}
+{% if includes is defined -%}
 {% for i in includes %}
-  {%- if i.domain is not defined -%}
+  {% if i.domain is not defined -%}
     {%- set idomain = '' -%}
-  {%- else -%}
+  {% else -%}
     {%- set idomain = i.domain -%}
-  {%- endif -%}
+  {% endif -%}
 $INCLUDE {{ i.path }} {{ idomain }};
 {% endfor %}
-{%- endif -%}
+{% endif -%}
 
