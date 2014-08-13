@@ -1,5 +1,6 @@
+$ORIGIN {{ name }}.
 $TTL {{ ttl }}
-@ IN SOA {{ soa }}. {{ contact }} (
+@ IN SOA {{ soa }}.{{ name }}. {{ contact }} (
   {{ serial }}  ; serial
   {{ refresh }} ; refresh
   {{ retry }}  ; retry
@@ -7,7 +8,7 @@ $TTL {{ ttl }}
   {{ minimum }}  ; minimum
 )
 
-@ IN NS {{ soa }}.
+   IN NS {{ soa }}.{{ name }}.
 
 {% if records is defined %}
 {% for r in records -%}
