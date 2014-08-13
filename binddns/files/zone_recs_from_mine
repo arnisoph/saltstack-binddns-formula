@@ -11,6 +11,6 @@
 {%- if addrs is defined %}
 
 {%- for node, addrlist in addrs.items() %}
-{{ name }} {{ ittl }} IN A {{ addrlist|first() }}
+{{ node }} {{ ittl }} IN A {{ addrlist|first() }}
 {% endfor -%}
 {% endif %}
