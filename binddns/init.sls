@@ -157,6 +157,6 @@ incl_{{ z.name }}:
         minimum: {{ z.minimum|default(z_def.minimum) }}
         contact: {{ z.contact|default('root.' ~ z.name ~ '.') }}
         records: {{ z.records|default([]) }}
-	includes: [ { 'path': "{{ datamap.zonedir }}/in.{{ z.name }}" ]
+        includes: [ { 'path': "{{ datamap.zonedir }}/in.{{ z.name }}" } ]
   {% endif %}
 {% endfor %}
