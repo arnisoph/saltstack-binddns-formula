@@ -58,9 +58,9 @@ RedHat:
           versions: 3
           size: 5m
           severity: info
-          print_time: yes
-          print_sererity: yes
-          print_category: yes
+          print_time: "yes"
+          print_sererity: "yes"
+          print_category: "yes"
       logging_categories:
         - category: default
           channels:
