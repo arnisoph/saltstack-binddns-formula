@@ -59,7 +59,7 @@ RedHat:
           size: 5m
           severity: info
           print_time: "yes"
-          print_sererity: "yes"
+          print_severity: "yes"
           print_category: "yes"
       logging_categories:
         - category: default
