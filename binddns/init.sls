@@ -95,7 +95,7 @@ options:
 
 {%
 set z_def = {
-  'ttl': 10800,
+  'ttl': 300,
   'serial': 1,
   'refresh': 86400,
   'retry': 3600,
