@@ -40,6 +40,16 @@ defaults_file:
     - group: {{ datamap.config.defaults_file.group|default('root') }}
 {% endif %}
 
+named_conf_debug:
+  file:
+    - managed
+    - name: {{ datamap.config.named_conf.path ~ ".debug" }}
+    - source: {{ datamap.config.named_conf.template_path|default('salt://binddns/files/named.conf.debug') }}
+    - template: {{ datamap.config.named_conf.template_renderer|default('jinja') }}
+    - mode: {{ datamap.config.named_conf.mode|default('640') }}
+    - user: {{ datamap.config.named_conf.user|default(datamap.user.name) }}
+    - group: {{ datamap.config.named_conf.group|default(datamap.group.name) }}
+
 {% if 'named_conf' in datamap.config.manage %}
 named_conf:
   file:
