@@ -30,7 +30,7 @@ Debian:
     zoneconfigs:
       path: /etc/bind/named.conf.zones
     zones: {}
-Redhat:
+RedHat:
 {# https://github.com/theforeman/puppet-dns/blob/master/manifests/params.pp #}
   pkgs:
     - named
