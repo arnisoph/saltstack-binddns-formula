@@ -2,6 +2,9 @@
 binddns-formula
 ===============
 
+.. image:: https://api.flattr.com/button/flattr-badge-large.png
+    :target: https://flattr.com/submit/auto?user_id=bechtoldt&url=https%3A%2F%2Fgithub.com%2Fbechtoldt%2Fbinddns-formula
+
 Salt Stack Formula to set up and configure BIND, a DNS software suite
 
 NOTICE BEFORE YOU USE
