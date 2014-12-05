@@ -108,6 +108,15 @@ zoneconfigs:
 
 {% for z in salt['pillar.get']('binddns:zones', []) %}
   {% if not (z.create_db_only and salt['file.file_exists'](datamap.zonedir ~ '/db.' ~ z.name)) %}
+    {% set include_list = [] %}
+    {%- if z.zone_recs_from_mine is defined and z.zone_recs_from_mine -%}
+        {% do include_list.append( { 'path': "{{ datamap.zonedir }}/in.{{ z.name }}" } ) %}
+    {%- endif %}
+    {%- if z.includes is defined and z.includes -%}
+      {%- for include_dict in z.includes -%}
+        {% do includes_list.append( {{ include_dict }} ) %}
+      {%- endfor -%}
+    {%- endif %}
 zone_{{ z.name }}:
   file:
     - managed
@@ -130,9 +139,7 @@ zone_{{ z.name }}:
         minimum: {{ z.minimum|default(z_def.minimum) }}
         contact: {{ z.contact|default('root.' ~ z.name ~ '.') }}
         records: {{ z.records|default([]) }}
-    {% if z.zone_recs_from_mine is defined and z.zone_recs_from_mine %}
-        includes: [ { 'path': "{{ datamap.zonedir }}/in.{{ z.name }}" } ]
-    {% endif %}
+        includes: {{ include_list }}
   {% endif %}
 {% endfor %}
 
