@@ -110,13 +110,12 @@ zoneconfigs:
   {% if not (z.create_db_only and salt['file.file_exists'](datamap.zonedir ~ '/db.' ~ z.name)) %}
     {% set include_list = [] %}
     {% if z.zone_recs_from_mine is defined and z.zone_recs_from_mine %}
-        {% do include_list.append( { 'path': "{{ datamap.zonedir }}/in.{{ z.name }}" } ) %}
+        {% set path = "{{ datamap.zonedir }}/in.{{ z.name }}" %}
+        {% do include_list.append( { 'path': path } ) %}
     {% endif %}
-    # {{ include_list }}
-    # {{ z.includes }}
     {% if z.includes is defined and z.includes %}
       {% for include_dict in z.includes %}
-        {% do includes_list.append( {{ include_dict }} ) %}
+        {% do includes_list.append( include_dict ) %}
       {% endfor %}
     {% endif %}
 zone_{{ z.name }}:
