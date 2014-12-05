@@ -114,7 +114,7 @@ zoneconfigs:
     {% endif %}
     {% if z.includes is defined and z.includes %}
       {% for include_dict in z.includes %}
-        {% do includes_list.append( include_dict ) %}
+        {% do include_list.append( include_dict ) %}
       {% endfor %}
     {% endif %}
 zone_{{ z.name }}:
