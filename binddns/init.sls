@@ -112,6 +112,8 @@ zoneconfigs:
     {% if z.zone_recs_from_mine is defined and z.zone_recs_from_mine %}
         {% do include_list.append( { 'path': "{{ datamap.zonedir }}/in.{{ z.name }}" } ) %}
     {% endif %}
+    # {{ include_list }}
+    # {{ z.includes }}
     {% if z.includes is defined and z.includes %}
       {% for include_dict in z.includes %}
         {% do includes_list.append( {{ include_dict }} ) %}
