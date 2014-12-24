@@ -6,7 +6,7 @@ binddns:
         options:
           - '-4'
           - '-u bind'
-      named.conf:
+      named_conf:
         file_prepend: "// my prepend\n// the end"
         controls:
           - 'inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { "rndc-key"; };'
@@ -28,7 +28,7 @@ binddns:
           - 127.0.0.1
         ip6_listen:
           - ::1
-      named.conf:
+      named_conf:
         controls:
           - 'inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { "rndc-key"; };'
     dnssec_validation: "no"
