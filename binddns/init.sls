@@ -11,10 +11,6 @@ binddns:
     - running
     - name: {{ datamap.service.name }}
     - enable: {{ datamap.service.enable|default(True) }}
-    - watch:
-{% for c in datamap.config.manage|default([]) %}
-      - file: {{ c }}
-{% endfor %}
     - require:
       - pkg: binddns
       - file: zonedir
@@ -38,6 +34,8 @@ defaults_file:
     - mode: {{ datamap.config.defaults_file.mode|default('644') }}
     - user: {{ datamap.config.defaults_file.user|default('root') }}
     - group: {{ datamap.config.defaults_file.group|default('root') }}
+    - watch:
+      - service: binddns
 {% endif %}
 
 {% if 'named_conf' in datamap.config.manage %}
@@ -50,6 +48,8 @@ named_conf:
     - mode: {{ datamap.config.named_conf.mode|default('640') }}
     - user: {{ datamap.config.named_conf.user|default(datamap.user.name) }}
     - group: {{ datamap.config.named_conf.group|default(datamap.group.name) }}
+    - watch:
+      - service: binddns
 {% endif %}
 
 {% if 'rndc_key' in datamap.config.manage %}
@@ -66,6 +66,8 @@ rndc_key:
     - group: {{ datamap.config.rndc_key.group|default(datamap.group.name) }}
     - require:
       - cmd: rndc_key
+    - watch:
+      - service: binddns
 {% endif %}
 
 {% if 'options' in datamap.config.manage %}
@@ -78,6 +80,8 @@ options:
     - mode: {{ datamap.config.options.mode|default('640') }}
     - user: {{ datamap.config.options.user|default(datamap.user.name) }}
     - group: {{ datamap.config.options.group|default(datamap.group.name) }}
+    - watch:
+      - service: binddns
 {% endif %}
 
 
@@ -104,6 +108,8 @@ zoneconfigs:
     - mode: {{ datamap.config.zoneconfigs.mode|default('644') }}
     - user: {{ datamap.config.zoneconfigs.user|default('root') }}
     - group: {{ datamap.config.zoneconfigs.group|default('root') }}
+    - watch:
+      - service: binddns
 {% endif %}
 
 {% for z in salt['pillar.get']('binddns:zones', []) %}
