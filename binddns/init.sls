@@ -34,7 +34,7 @@ defaults_file:
     - mode: {{ datamap.config.defaults_file.mode|default('644') }}
     - user: {{ datamap.config.defaults_file.user|default('root') }}
     - group: {{ datamap.config.defaults_file.group|default('root') }}
-    - watch:
+    - watch_in:
       - service: binddns
 {% endif %}
 
@@ -48,7 +48,7 @@ named_conf:
     - mode: {{ datamap.config.named_conf.mode|default('640') }}
     - user: {{ datamap.config.named_conf.user|default(datamap.user.name) }}
     - group: {{ datamap.config.named_conf.group|default(datamap.group.name) }}
-    - watch:
+    - watch_in:
       - service: binddns
 {% endif %}
 
@@ -66,7 +66,7 @@ rndc_key:
     - group: {{ datamap.config.rndc_key.group|default(datamap.group.name) }}
     - require:
       - cmd: rndc_key
-    - watch:
+    - watch_in:
       - service: binddns
 {% endif %}
 
@@ -80,7 +80,7 @@ options:
     - mode: {{ datamap.config.options.mode|default('640') }}
     - user: {{ datamap.config.options.user|default(datamap.user.name) }}
     - group: {{ datamap.config.options.group|default(datamap.group.name) }}
-    - watch:
+    - watch_in:
       - service: binddns
 {% endif %}
 
@@ -108,7 +108,7 @@ zoneconfigs:
     - mode: {{ datamap.config.zoneconfigs.mode|default('644') }}
     - user: {{ datamap.config.zoneconfigs.user|default('root') }}
     - group: {{ datamap.config.zoneconfigs.group|default('root') }}
-    - watch:
+    - watch_in:
       - service: binddns
 {% endif %}
 
