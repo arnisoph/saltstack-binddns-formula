@@ -16,7 +16,7 @@
 
 {% if auto_delegate_from_mine is defined -%}
 {% for auto in auto_delegate_from_mine -%}
-; A records auto-delegated by Salt for {{ auto.nameserver_match }} {{ auto.match_type|default('glob')) }}
+; A records auto-delegated by Salt for {{ auto.nameserver_match }} {{ auto.match_type|default('glob') }}
 {% set searchdom = auto.nameserver_match -%}
 {% set addrs = salt['mine.get'](searchdom, 'network.ip_addrs', auto.match_type|default('glob')) -%}
 {% if addrs is defined -%}
