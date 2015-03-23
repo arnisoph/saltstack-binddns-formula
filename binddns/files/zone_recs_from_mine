@@ -34,11 +34,12 @@
 {% endfor -%}
 {% endif %}
 
+; generating auto delegation from mine
 {% if auto_delegate_from_mine is defined -%}
 {% for auto in auto_delegate_from_mine -%}
 {% set searchdom = auto.nameserver_match -%}
 {% set addrs = salt['mine.get'](searchdom, 'network.ip_addrs', auto.match_type|default('glob')) -%}
-{% if addrs is defined -%}
+{% if addrs is defined and addrs -%}
 ; A records auto-delegated by Salt for {{ auto.nameserver_match }} {{ auto.match_type|default('glob') }}
 {% for node, addrlist in addrs.items() -%}
 {% set delegate_domain = node.split('.') -%}
@@ -54,6 +55,7 @@
 {% endfor -%}
 {% endif %}
 
+; generating auto delegation from grains
 {% if auto_delegate_from_grains is defined -%}
 {% for auto in auto_delegate_from_grains -%}
 {% set addrs = salt['grains.get'](auto.grain, {}) -%}
