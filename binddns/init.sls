@@ -145,7 +145,7 @@ zone_{{ z.name }}:
 {% endfor %}
 
 {% for z in salt['pillar.get']('binddns:zones', []) %}
-  {% if z.zone_recs_from_mine is defined and z.zone_recs_from_mine %}
+  {% if z.zone_recs_from_mine is defined or z.auto_delegate_from_mine is defined or z.auto_delegate_from_grains is defined %}
 incl_{{ z.name }}:
   file:
     - managed
@@ -169,5 +169,6 @@ incl_{{ z.name }}:
         contact: {{ z.contact|default('root.' ~ z.name ~ '.') }}
         records: {{ z.records|default([]) }}
         auto_delegate_from_mine: {{ z.auto_delegate_from_mine|default([]) }}
+        auto_delegate_from_grains: {{ z.auto_delegate_from_grains|default([]) }}
   {% endif %}
 {% endfor %}
