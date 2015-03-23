@@ -54,6 +54,10 @@ binddns:
           data: 172.16.34.42
           comment: anyhost
       zone_recs_from_mine: True
+      auto_delegate_from_mine:
+	 - nameserver_match: nameserver.*
+      auto_delegate_from_grains:
+         - grain: nameservers
       includes:
         - path: in.beta.be1-net.local
 	  domain: "beta.be1-net.local"
