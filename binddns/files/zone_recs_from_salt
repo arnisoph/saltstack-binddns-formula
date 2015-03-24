@@ -12,7 +12,7 @@
 {%- for node, addrlist in addrs.items() -%}
 {{ node }}. {{ ittl }} IN A {{ addrlist|first() }}
 {% endfor -%}
-{%- endif -%}
+{%- endif %}
 
 ; generating auto delegation from mine
 {% if auto_delegate_from_mine is defined -%}

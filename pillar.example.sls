@@ -56,6 +56,7 @@ binddns:
       zone_recs_from_mine: True
       auto_delegate_from_mine:
 	 - nameserver_match: nameserver.*
+	 - match_type: glob
       auto_delegate_from_grains:
          - grain: nameservers
       includes:

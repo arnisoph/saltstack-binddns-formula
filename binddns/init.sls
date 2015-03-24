@@ -150,7 +150,7 @@ incl_{{ z.name }}:
   file:
     - managed
     - name: {{ datamap.zonedir }}/in.{{ z.name }}
-    - source: {{ datamap.config.zones.template_path|default('salt://binddns/files/zone_recs_from_mine') }}
+    - source: {{ datamap.config.zones.template_path|default('salt://binddns/files/zone_recs_from_salt') }}
     - template: {{ datamap.config.zones.template_renderer|default('jinja') }}
     - mode: {{ datamap.config.zones.mode|default('644') }}
     - user: {{ datamap.config.zones.user|default('root') }}
