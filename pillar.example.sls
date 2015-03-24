@@ -55,13 +55,13 @@ binddns:
           comment: anyhost
       zone_recs_from_mine: True
       auto_delegate_from_mine:
-	 - nameserver_match: nameserver.*
-	 - match_type: glob
+	 - nameserver_match: ns\w*\..*\.prod.be1-net.local
+	 - match_type: pcre
       auto_delegate_from_grains:
          - grain: nameservers
       includes:
         - path: in.beta.be1-net.local
-	  domain: "beta.be1-net.local"
+	  domain: beta.be1-net.local
     - create_db_only: True
       name: 34.16.172.in-addr.arpa
       soa: foreman.prod.be1-net.local
