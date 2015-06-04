@@ -73,6 +73,7 @@ Authors
 -------
 
 * Arnold Bechtoldt <mail@arnoldbechtoldt.com>
+* Rajul Vora <rvora@cloudopia.co>
 
 
 Miscellaneous
