@@ -10,6 +10,12 @@ directory "{{ datamap.vardir }}";
 auth-nxdomain {{ datamap.auth_nxdomain|default('no') }};
 dnssec-validation {{ datamap.dnssec_validation|default('auto') }};
 
+{% if datamap.config.options.additional is defined -%}
+{%- for f in datamap.config.options.additional %}
+{{ f }};
+{%- endfor %}
+{%- endif %}
+
 {% if salt['pillar.get']('binddns:forwarders', False) -%}
 forwarders {
   {%- for f in salt['pillar.get']('binddns:forwarders') %}

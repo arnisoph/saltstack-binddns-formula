@@ -32,11 +32,45 @@ Debian:
     zones: {}
 RedHat:
   pkgs:
-    - named
+    - bind
+    - bind-utils
   service:
     name: named
   user:
-    name: named
+    name: root
   group:
     name: named
+  vardir: /var/named
+  zonedir: /var/named/data
+  config:
+    manage:
+      - named_conf
+      - rndc_key
+      - options
+      - zoneconfigs
+    named_conf:
+      path: /etc/named.conf
+      logging_channels:
+        - channel: simple_log
+          desttype: file
+          path: /var/log/named.log
+          versions: 3
+          size: 5m
+          severity: info
+          print_time: "yes"
+          print_severity: "yes"
+          print_category: "yes"
+      logging_categories:
+        - category: default
+          channels:
+            - simple_log
+    rndc_key:
+      path: /etc/rndc.key
+    localzones:
+      path: /etc/named.rfc1912.zones
+    options:
+      path: /etc/named.conf.options
+    zoneconfigs:
+      path: /etc/named.conf.local
+    zones: {}
 {% endload %}
